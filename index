@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>ADNR x COGEX - Plaquette digitale</title>
+  <meta name="description" content="ADNR x COGEX - Plaquette interactive pour professions libérales et santé intégrative">
+  <style>
+    body {
+      margin:0; padding:0; box-sizing:border-box;
+      font-family: 'Helvetica', Arial, sans-serif;
+      background:#f7f8fa; color:#222;
+    }
+    header {
+      background: linear-gradient(90deg, #005022 80%, #007833 100%);
+      color:white; padding:2rem 0; text-align:center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    header h1 { margin:0 0 0.5rem; font-size:2.7rem; letter-spacing:0.05em; }
+    header h2 { margin:0 0 0.3rem; font-weight:500; font-size:1.3rem; }
+    header em { font-weight:400; opacity:0.8; display:block; font-size:1.1rem; margin-top:0.4em;}
+    nav { margin-top:1.6rem; }
+    nav a {
+      color:#fff; text-decoration:none;
+      padding:0.45em 1.1em;
+      margin:0 0.4em;
+      border-radius:30px;
+      background:rgba(255,255,255,0.08);
+      font-weight:600; transition:background 0.15s;
+    }
+    nav a:hover { background:rgba(255,255,255,0.19);}
+    .offers { display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; margin:3rem auto 2rem; max-width:1100px;}
+    .card {
+      background:#fff; border-radius:1.3em; box-shadow: 0 8px 32px rgba(0,80,34,0.08), 0 1.5px 10px rgba(0,80,34,0.05);
+      padding:2.3rem 2rem 2.1rem; max-width:340px; min-width:270px; flex:1; text-align:center;
+      position:relative; overflow:hidden;
+      border-bottom: 4px solid #005022;
+      animation:fadeInUp 1s cubic-bezier(.3,1.3,.3,1) forwards; opacity:0;
+    }
+    .card.pilotage { border-bottom:4px solid #007833; }
+    .card.active, .card.pilotage { box-shadow: 0 14px 36px #00783322;}
+    .card .badge {
+      position:absolute; top:20px; right:24px;
+      background: #007833; color:#fff; font-size:0.98rem; font-weight:600;
+      border-radius:20px; padding:0.25em 1em; letter-spacing:0.03em;
+      box-shadow: 0 1px 7px #00502230;
+      z-index:2;
+    }
+    .card h3 { font-size:1.45rem; margin:0.3rem 0 0.4rem;}
+    .card .price {
+      font-size:2.05rem; color:#005022; font-weight:700; margin:0.5rem 0 1rem;
+    }
+    .card ul { list-style:none; padding:0; margin:0.8em 0 0;}
+    .card ul li {
+      padding:0.4em 0; border-bottom:1px solid #e5ece7;
+      font-size:1.04rem; letter-spacing:0.01em;
+      color:#363; text-align:left;
+      position:relative; padding-left:1.7em;
+    }
+    .card ul li:before {
+      content:'✓ '; position:absolute; left:0.2em; color:#007833;
+      font-weight:900; font-size:1.25em;
+    }
+    .cta-btn {
+      display:inline-block; margin-top:1.7em;
+      background:#005022; color:#fff; border:none;
+      border-radius:24px; padding:0.85em 2.1em;
+      font-size:1.05rem; font-weight:700; cursor:pointer;
+      transition:background 0.18s, transform 0.12s;
+      box-shadow:0 1px 8px #00502222;
+    }
+    .cta-btn:hover { background:#007833; transform:scale(1.06);}
+    /* Services complémentaires - 2x2 */
+    .more-services {
+      max-width:900px; margin: 3.5rem auto; padding:2.2rem 1rem 1.8rem 1rem;
+      background:#fff; border-radius:2em;
+      box-shadow: 0 8px 32px #00502210;
+    }
+    .more-services h3 {
+      color:#005022; text-align: center; font-size: 1.6rem; margin-bottom: 1.6rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .service-block {
+      background: #f9fbfa;
+      border-left: 4px solid #007833;
+      border-radius: 1em;
+      padding: 1.4em;
+      min-width: 180px;
+      max-width: 350px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .service-block h4 {
+      color:#007833; margin-top:0; font-size:1.25rem; margin-bottom: 0.8em;
+    }
+    .service-block ul {
+      margin:0; padding-left:1.4em;
+    }
+    .service-block li {
+      font-size:1rem; line-height:1.6; margin:0.2em 0;
+    }
+    /* Avantages */
+    .features {margin:2rem auto 3rem auto; max-width:950px; display:flex; flex-wrap:wrap; gap:1.1em;}
+    .feature-item {flex:1 1 220px; background:#e4f8e5; border-radius:1.1em; padding:1.2em; text-align:center; min-width:180px;}
+    .feature-item span {font-size:2em; display:block; margin-bottom:0.2em;}
+    .feature-item h5 {margin: 0.19em 0 0.33em 0; color:#005022;}
+    /* Contact sans émojis + lien mailto */
+    .contact-section {background:#005022; color:#fff; text-align:center; padding:2.7rem 1rem 2rem;}
+    .contact-section h3 {color:#fff; margin-bottom:1.5rem;}
+    .contact-info p {margin:0.5em 0; font-size:1.1rem;}
+    .contact-info b {font-size:1.16rem;}
+    /* Footer */
+    footer {background:#222; color:#fff; text-align:center; padding:1rem;}
+    footer p {margin:0; font-size:0.95rem;}
+    /* Responsive */
+    @media (max-width:900px) {
+      .offers, .features { flex-direction:column; align-items:center;}
+      .card, .service-block {max-width:98vw;}
+      .services-grid { grid-template-columns: 1fr; }
+    }
+    @keyframes fadeInUp {
+      0% { opacity:0; transform: translateY(60px);}
+      100% { opacity:1; transform: none;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ADNR x COGEX</h1>
+    <h2>Expert-Comptable Spécialisé Professions Libérales</h2>
+    <em>Plus qu'un expert-comptable, votre partenaire business</em>
+    <nav>
+      <a href="#offres">Offres</a>
+      <a href="#services">Services</a>
+      <a href="#avantages">Avantages</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- OFFRES PRINCIPALES -->
+    <section id="offres" class="offers">
+      <div class="card essentiel" style="animation-delay: .2s">
+        <h3>ESSENTIEL</h3>
+        <div class="price">69€ HT/mois</div>
+        <ul>
+          <li>Établissement des comptes annuels</li>
+          <li>Espace dédié pour dépôt des documents</li>
+          <li>Établissement déclarations fiscales courantes</li>
+          <li>Bilan visé par un expert comptable</li>
+        </ul>
+        <button class="cta-btn" onclick="window.location.href='mailto:florent.desblancs@cabinet-cogex.fr?subject=Demande de devis - Forfait Essentiel'">
+          Je demande ce forfait
+        </button>
+      </div>
+      <div class="card pilotage active" style="animation-delay: .35s">
+        <div class="badge">LE PLUS POPULAIRE</div>
+        <h3>PILOTAGE</h3>
+        <div class="price">89€ HT/mois</div>
+        <ul>
+          <li>Tous les services Essentiel</li>
+          <li>Équipe dédiée de collaborateurs comptables</li>
+          <li>Optimisation des frais de déplacement (IK vs frais réels)</li>
+          <li>Vérification des appels de cotisations sociales</li>
+          <li>Tableau de bord en ligne</li>
+        </ul>
+        <button class="cta-btn" onclick="window.location.href='mailto:florent.desblancs@cabinet-cogex.fr?subject=Demande d\'information - Forfait Pilotage'">
+          Découvrir Pilotage
+        </button>
+      </div>
+      <div class="card performance" style="animation-delay: .5s">
+        <h3>PERFORMANCE</h3>
+        <div class="price">119€ HT/mois</div>
+        <ul>
+          <li>Tous les services Pilotage</li>
+          <li>Rendez-vous avec un expert-comptable</li>
+          <li>Situation comptable intermédiaire</li>
+          <li>Bilan social (prévoyance retraite)</li>
+          <li>Aide à la déclaration des revenus professionnels</li>
+          <li>Réponses sous 48h</li>
+        </ul>
+        <button class="cta-btn" onclick="window.location.href='mailto:florent.desblancs@cabinet-cogex.fr?subject=Demande de devis - Forfait Performance'">
+          Forfait Premium
+        </button>
+      </div>
+    </section>
+    
+    <!-- SERVICES COMPLÉMENTAIRES : 2x2 -->
+    <section id="services" class="more-services">
+      <h3>Services Complémentaires</h3>
+      <div class="services-grid">
+        <div class="service-block">
+          <h4>Gestion sociale</h4>
+          <ul>
+            <li>Bulletins de salaire</li>
+            <li>Contrat de travail</li>
+            <li>Déclaration sociale nominative</li>
+          </ul>
+        </div>
+        <div class="service-block">
+          <h4>Pilotage & Prévisionnel</h4>
+          <ul>
+            <li>Prévisionnel complet</li>
+          </ul>
+        </div>
+        <div class="service-block">
+          <h4>Patrimoine & Investissement</h4>
+          <ul>
+            <li>Création de SCM / SCI</li>
+            <li>Investissements LMNP / LMP</li>
+            <li>Déclaration des revenus professionnels (2042)</li>
+          </ul>
+        </div>
+        <div class="service-block">
+          <h4>Conseil stratégique</h4>
+          <ul>
+            <li>Accompagnement au choix de structure juridique (CA &lt; 100K€)</li>
+            <li>Conseil sur les structures à partir de 100K€ de CA</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVANTAGES -->
+    <section id="avantages" class="features">
+      <div class="feature-item"><span>🎯</span><h5>SPÉCIALISATION BNC</h5><div>Expert des professions libérales</div></div>
+      <div class="feature-item"><span>💰</span><h5>OPTIMISATION FISCALE</h5><div>Conseil personnalisé pour minimiser vos charges</div></div>
+      <div class="feature-item"><span>🚀</span><h5>ACCOMPAGNEMENT CROISSANCE</h5><div>De la création à la structuration en société</div></div>
+      <div class="feature-item"><span>📱</span><h5>OUTILS DIGITAUX</h5><div>Plateforme sécurisée et tableau de bord</div></div>
+      <div class="feature-item"><span>⚡</span><h5>RÉACTIVITÉ</h5><div>Réponses garanties sous 48h en formule Performance</div></div>
+    </section>
+
+    <!-- CONTACT - Mailto sur l'adresse -->
+    <section id="contact" class="contact-section">
+      <h3>Contactez-nous</h3>
+      <div class="contact-info">
+        <p><b>Adresse&nbsp;mail :</b> <a href="mailto:florent.desblancs@cabinet-cogex.fr?subject=Demande d'information via la plaquette digitale" style="color:#fff; text-decoration:underline;">contact@cabinet-cabb.fr</a></p>
+        <p><b>Téléphone :</b> [Votre numéro]</p>
+        <p><b>Site web :</b> [Votre site web]</p>
+        <p><b>Adresse :</b> [Votre adresse]</p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>COGEX &copy; 2025</p>
+  </footer>
+  <script>
+    // Animations d'apparition
+    document.addEventListener('DOMContentLoaded', ()=>{
+      [...document.querySelectorAll('.card')].forEach(card => card.style.opacity=1);
+    });
+  </script>
+</body>
+</html>
